@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siddartha Reddy Gade </title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    .profile-photo-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem auto 3rem;
+    }
+
+    .profile-pic-center {
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      border: 3px solid #00ffee;
+      box-shadow: 0 0 25px #00ffee88;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-pic-center:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="cyberpunk-music.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Galaxy Cursor -->
+  <div class="cursor"></div>
+
+  <!-- Canvas Background -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Glitch Heading -->
+  <div class="glitch-wrapper">
+    <div class="glitch" data-text="SIDDARTHA REDDY GADE">SIDDARTHA REDDY GADE</div>
+  </div>
+
+  <!-- Profile Photo in Center -->
+  <div class="profile-photo-center">
+    <img src="profile.jpg" alt="Siddarth Reddy Gade" class="profile-pic-center" />
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="content">
+      <p class="tagline">Game Designer | Futurist | Immersive Creator</p>
+      <p class="bio">20 years old, currently pursuing B.Tech at KL University, Vijayawada.<br />
+        I design immersive experiences, cinematic worlds, and push the limits of storytelling in games.</p>
+      <a href="https://www.instagram.com/siddarthareddi" target="_blank" class="insta-link">Follow Me @siddarthareddi</a>
+    </div>
+
+    <!-- Widgets -->
+    <div class="widgets">
+      <div class="widget">
+        <h2>⚙️ Skills</h2>
+        <ul>
+          <li>🕹️ Game Design & Level Building</li>
+          <li>🚀 Unity & Unreal Engine</li>
+          <li>🎨 3D Modeling, Blender & Animation</li>
+          <li>🧠 UX Flow & Storyboarding</li>
+        </ul>
+      </div>
+      <div class="widget">
+        <h2>🔥 Projects</h2>
+        <ul>
+          <li><strong>CyberSurge:</strong> High-speed racer in a neon city.</li>
+          <li><strong>Neon Noir:</strong> Stealth thriller in a dystopian future.</li>
+          <li><strong>VRverse:</strong> VR educational simulation universe.</li>
+        </ul>
+      </div>
+      <div class="widget">
+        <h2>👨‍💻 Currently Working On</h2>
+        <p>Designing an AI-powered puzzle adventure game with glitch reality mechanics and alternate dimensions.</p>
+      </div>
+      <div class="widget">
+        <h2>🌟 Fun Fact</h2>
+        <p>My games are powered by dreams, synthwaves, and the belief that the future is playable.</p>
+      </div>
+      <div class="widget contact-widget">
+        <h2>📬 Contact</h2>
+        <form action="https://formspree.io/f/mqkrrzyl" method="POST">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <input type="email" name="email" placeholder="Your Email" required>
+          <textarea name="message" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+              <a href="https://siddarthareddygade3@gmail.com" target="_blank" class="gmail-link">gmail @siddarthareddygade3@gmail.com</a>
+
+        <p>Email: siddarthareddygade3@gmail.com</p>
+        <p>Phone: +91-9876543210</p>
+        <p>Base: Vijayawada, India</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="first.js"></script>
+</body>
+</html>

@@ -7,11 +7,7 @@ body {
   overflow-x: hidden;
   color: #00ffee;
 }
-html, body {
-  height: 100%;
-  scroll-behavior: smooth;
-  font-size: 18px;
-}
+html, body { height: 100%; scroll-behavior: smooth; font-size: 18px; }
 .container { position: relative; padding: 10vh 15vw; z-index: 2; }
 canvas#bgCanvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
 
@@ -24,32 +20,17 @@ canvas#bgCanvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: 
   animation: flicker 3s infinite;
   text-shadow: 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff;
 }
-.glitch::before, .glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0; width: 100%;
-  overflow: hidden; color: #f0f;
-  clip: rect(0, 0, 0, 0);
-}
+.glitch::before, .glitch::after { content: attr(data-text); position: absolute; left: 0; width: 100%; color: #f0f; clip: rect(0,0,0,0); }
 .glitch::before { animation: glitchTop 2s infinite linear alternate-reverse; }
 .glitch::after { animation: glitchBottom 1.5s infinite linear alternate-reverse; }
-
 @keyframes glitchTop { 0%{clip:rect(0,900px,0,0);}20%{clip:rect(10px,900px,50px,0);left:2px;}40%{clip:rect(5px,900px,20px,0);left:-2px;}60%{clip:rect(15px,900px,30px,0);left:1px;}80%{clip:rect(10px,900px,40px,0);left:0px;}100%{clip:rect(0,900px,0,0);} }
 @keyframes glitchBottom { 0%{clip:rect(0,900px,0,0);}20%{clip:rect(55px,900px,90px,0);left:-2px;}40%{clip:rect(60px,900px,100px,0);left:2px;}60%{clip:rect(70px,900px,110px,0);left:-1px;}80%{clip:rect(80px,900px,120px,0);left:1px;}100%{clip:rect(0,900px,0,0);} }
 @keyframes flicker { 0%{opacity:1;}50%{opacity:0.9;}80%{opacity:0.95;}100%{opacity:1;} }
 
 /* === PROFILE CENTER === */
-.profile-photo-center {
-  display: flex; justify-content: center; align-items: center;
-  width: 100%; margin: 2rem auto 3rem; position: relative; z-index: 2;
-}
-.profile-pic-center {
-  width: 280px; height: 280px;
-  border-radius: 50%; border: 3px solid #00ffee;
-  object-fit: cover; animation: pulse-glow 3s ease-in-out infinite;
-  transition: transform 0.3s ease;
-}
-.profile-pic-center:hover { transform: scale(1.05); }
+.profile-photo-center { display:flex; justify-content:center; align-items:center; width:100%; margin:2rem auto 3rem; z-index:2; }
+.profile-pic-center { width:280px; height:280px; border-radius:50%; border:3px solid #00ffee; object-fit:cover; animation:pulse-glow 3s ease-in-out infinite; transition:transform 0.3s ease; }
+.profile-pic-center:hover { transform:scale(1.05); }
 @keyframes pulse-glow {0%{box-shadow:0 0 20px #00ffee88;}50%{box-shadow:0 0 30px #00ffeecc;}100%{box-shadow:0 0 20px #00ffee88;}}
 
 /* === CURSOR === */
@@ -76,10 +57,12 @@ canvas#bgCanvas { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: 
 .widget button { cursor:pointer; background:#00ffee; color:#000; }
 .widget button:hover { background:#00ffcc; }
 
-/* === RESPONSIVE === */
+/* === MOBILE OPTIMIZATION === */
 @media (max-width: 768px) {
-  .glitch { font-size:3rem; }
-  .widget { width:90%; padding:2rem; }
-  .profile-pic-center { width:200px; height:200px; }
-  .widgets { flex-direction:column; align-items:center; }
+  body { font-size: 16px; overflow-x: hidden; }
+  .container { padding: 5vh 5vw; }
+  .glitch { font-size: 2.5rem; animation: none; text-shadow: 0 0 10px #0ff; }
+  .profile-pic-center { width: 180px; height: 180px; }
+  .widgets { flex-direction: column; align-items: center; gap: 2rem; }
+  .widget { width: 95%; padding: 1.5rem; }
 }

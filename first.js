@@ -1,24 +1,27 @@
-// Disable cursor on touch devices
-if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-  document.querySelector(".cursor").style.display = "none";
+// === Detect mobile for performance optimization ===
+const isMobile = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+// Hide cursor & disable trail on mobile
+if (isMobile) document.querySelector(".cursor").style.display = "none";
+
+// === Galaxy Cursor Trail ===
+if (!isMobile) {
+  const cursor = document.querySelector(".cursor");
+  document.addEventListener("mousemove", e => {
+    cursor.style.top = `${e.clientY}px`;
+    cursor.style.left = `${e.clientX}px`;
+
+    const star = document.createElement("div");
+    star.className = "trail";
+    star.style.top = `${e.clientY}px`;
+    star.style.left = `${e.clientX}px`;
+    document.body.appendChild(star);
+
+    setTimeout(() => star.remove(), 400);
+  });
 }
 
-// Cursor trail effect
-const cursor = document.querySelector(".cursor");
-document.addEventListener("mousemove", e => {
-  cursor.style.top = `${e.clientY}px`;
-  cursor.style.left = `${e.clientX}px`;
-
-  const star = document.createElement("div");
-  star.className = "trail";
-  star.style.top = `${e.clientY}px`;
-  star.style.left = `${e.clientX}px`;
-  document.body.appendChild(star);
-
-  setTimeout(() => star.remove(), 400);
-});
-
-// Background starfield
+// === Background Starfield ===
 const canvas = document.getElementById("bgCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -29,14 +32,16 @@ function resizeCanvas() {
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
+// Reduce stars on mobile for performance
+const starCount = isMobile ? 50 : 160;
 let stars = [];
-for (let i = 0; i < 160; i++) {
+for (let i = 0; i < starCount; i++) {
   stars.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
-    r: Math.random() * 1.8 + 0.5,
-    dx: (Math.random() - 0.5) * 0.3,
-    dy: (Math.random() - 0.5) * 0.3
+    r: Math.random() * 1.5 + 0.3,
+    dx: (Math.random() - 0.5) * 0.2,
+    dy: (Math.random() - 0.5) * 0.2
   });
 }
 
@@ -45,8 +50,8 @@ function animateStars() {
   stars.forEach(s => {
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(136,221,255,0.9)";
-    ctx.shadowBlur = 8;
+    ctx.fillStyle = "rgba(136,221,255,0.8)";
+    ctx.shadowBlur = 6;
     ctx.shadowColor = "#00ffee";
     ctx.fill();
     s.x += s.dx;

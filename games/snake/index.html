@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake Game | Gade Siddarth Reddy</title>
+  <style>
+    body {
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #0f0;
+    }
+    h1 { text-shadow: 0 0 10px #0f0; }
+    canvas { background: #111; border: 2px solid #0f0; box-shadow: 0 0 20px #0f0; }
+    #score { font-size: 24px; margin: 10px; }
+    #overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.8); color: #0f0; display: none;
+      justify-content: center; align-items: center; flex-direction: column;
+      font-size: 24px; text-align: center;
+    }
+    #overlay button {
+      background: #0f0; border: none; padding: 10px 20px; margin-top: 10px;
+      color: #000; font-weight: bold; cursor: pointer; font-size: 20px;
+    }
+    .controls {
+      display: flex; flex-direction: column; align-items: center;
+      margin-top: 10px;
+    }
+    .btn-row { display: flex; gap: 40px; margin: 5px; }
+    .btn { width: 60px; height: 60px; background: #0f0; border: none; border-radius: 10px;
+      font-size: 20px; font-weight: bold; color: #000; box-shadow: 0 0 10px #0f0; }
+    .back-btn {
+      margin-top: 15px;
+      background: #0f0;
+      color: #000;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #0f0;
+      font-size: 18px;
+    }
+    footer {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #0f0;
+      text-shadow: 0 0 5px #0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🐍 Snake Game</h1>
+  <div id="score">Score: 0</div>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+  <!-- Touch Controls for Mobile -->
+  <div class="controls">
+    <button class="btn" onclick="setDir('UP')">⬆️</button>
+    <div class="btn-row">
+      <button class="btn" onclick="setDir('LEFT')">⬅️</button>
+      <button class="btn" onclick="setDir('RIGHT')">➡️</button>
+    </div>
+    <button class="btn" onclick="setDir('DOWN')">⬇️</button>
+  </div>
+
+  <!-- Universal Back Button -->
+  <button class="back-btn" onclick="goBack()">⬅️ Back to Portfolio</button>
+
+  <div id="overlay">
+    <p id="gameOverText">💀 Game Over!</p>
+    <button onclick="restartGame()">🔄 Restart</button>
+  </div>
+
+  <!-- Credit Footer -->
+  <footer>Developed by <strong>Siddartha Reddy Gade</strong></footer>
+
+  <script>
+    // === Back Button Logic ===
+    function goBack() {
+      if (document.referrer) {
+        window.history.back();
+      } else {
+        window.location.href = "index.html";
+      }
+    }
+
+    // === Snake Game Logic ===
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const overlay = document.getElementById("overlay");
+    const scoreText = document.getElementById("score");
+
+    const box = 20;
+    let snake, direction, food, score, game;
+
+    function initGame() {
+      snake = [{ x: 9 * box, y: 10 * box }];
+      direction = null;
+      food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+      score = 0;
+      scoreText.innerText = "Score: 0";
+      overlay.style.display = "none";
+      if (game) clearInterval(game);
+      game = setInterval(draw, 100);
+    }
+
+    function setDir(dir) {
+      if (dir === "LEFT" && direction !== "RIGHT") direction = "LEFT";
+      else if (dir === "UP" && direction !== "DOWN") direction = "UP";
+      else if (dir === "RIGHT" && direction !== "LEFT") direction = "RIGHT";
+      else if (dir === "DOWN" && direction !== "UP") direction = "DOWN";
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowLeft") setDir("LEFT");
+      else if (e.key === "ArrowUp") setDir("UP");
+      else if (e.key === "ArrowRight") setDir("RIGHT");
+      else if (e.key === "ArrowDown") setDir("DOWN");
+    });
+
+    function draw() {
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, 400, 400);
+
+      snake.forEach((segment, i) => {
+        ctx.fillStyle = i === 0 ? "#0f0" : "#fff";
+        ctx.fillRect(segment.x, segment.y, box, box);
+        ctx.strokeStyle = "#000";
+        ctx.strokeRect(segment.x, segment.y, box, box);
+      });
+
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, box, box);
+
+      let headX = snake[0].x;
+      let headY = snake[0].y;
+      if (direction === "LEFT") headX -= box;
+      if (direction === "UP") headY -= box;
+      if (direction === "RIGHT") headX += box;
+      if (direction === "DOWN") headY += box;
+
+      if (headX === food.x && headY === food.y) {
+        score++;
+        scoreText.innerText = "Score: " + score;
+        food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+      } else {
+        snake.pop();
+      }
+
+      let newHead = { x: headX, y: headY };
+
+      if (
+        headX < 0 || headY < 0 ||
+        headX >= canvas.width || headY >= canvas.height ||
+        snake.some(segment => segment.x === newHead.x && segment.y === newHead.y)
+      ) {
+        clearInterval(game);
+        overlay.style.display = "flex";
+        return;
+      }
+
+      snake.unshift(newHead);
+    }
+
+    function restartGame() {
+      initGame();
+    }
+
+    initGame();
+  </script>
+</body>
+</html>
